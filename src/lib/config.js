@@ -5,7 +5,7 @@
  * PLEASE BE SURE TO UPDATE THEM ALL! Thank you!
  **/ 
 
-export const siteTitle = 'My Awesome Blog'
+export const siteTitle = 'Lê Minh Blog'
 export const siteDescription = 'Built with the SvelteKit Static Blog Starter'
 export const siteURL = 'example.com'
 export const siteLink = 'https://github.com/josh-collinsworth/sveltekit-blog-starter'

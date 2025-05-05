@@ -1,3 +1,6 @@
+# Chào mừng bạn đến với blog của mình
+mình là Bùi Lê Minh - sinh viên khoa CNTT đại học Phenikaa
+
 # Hệ thống phân tán là gì?
 Hệ thống phân tán (Distributed System) là một hệ thống bao gồm nhiều thành phần (máy tính, thiết bị) độc lập, nhưng phối hợp làm việc với nhau để hoàn thành một nhiệm vụ chung. Các thành phần này có thể nằm ở các địa điểm khác nhau và giao tiếp với nhau qua mạng. Mặc dù các thành phần trong hệ thống phân tán có thể ở xa nhau, nhưng chúng hoạt động như một hệ thống duy nhất đối với người sử dụng.
 
