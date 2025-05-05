@@ -1,230 +1,136 @@
-# SvelteKit static blog starter
+# Hệ thống phân tán là gì?
+Hệ thống phân tán (Distributed System) là một hệ thống bao gồm nhiều thành phần (máy tính, thiết bị) độc lập, nhưng phối hợp làm việc với nhau để hoàn thành một nhiệm vụ chung. Các thành phần này có thể nằm ở các địa điểm khác nhau và giao tiếp với nhau qua mạng. Mặc dù các thành phần trong hệ thống phân tán có thể ở xa nhau, nhưng chúng hoạt động như một hệ thống duy nhất đối với người sử dụng.
 
-This starter contains everything you need to get up and running with
-[SvelteKit](https://kit.svelte.dev/) as a static site generator for your
-Markdown (and Svelte)-powered blog.
-[Check out the demo here](https://sveltekit-static-starter.netlify.app/), or
-view the
-[GitHub repo here](https://github.com/josh-collinsworth/sveltekit-blog-starter).
+## Các đặc điểm của hệ thống phân tán:
+### Phân tán về địa lý: 
+Các máy tính trong hệ thống không nhất thiết phải ở cùng một địa điểm mà có thể nằm ở nhiều nơi khác nhau.
 
-## Features
+### Giao tiếp qua mạng: 
+Các thành phần trong hệ thống cần giao tiếp với nhau qua các kênh truyền thông như mạng LAN, WAN, internet, v.v.
 
-- 🎉 **Fully up-to-date with SvelteKit 2 and Svelte 5!**
-- ⚡️ **Super fast static site generation with hydration**. Every route is
-  compiled down to static HTML and routed with (optional) JavaScript, thanks to
-  the SvelteKit static adapter (pre-installed)
-- 📦 **Zero-config preloading** for automatic, fast background preloading of all
-  top-level pages
-- ✍️ **Markdown support** with a pre-configured blog
-  - 📑 **Pagination** included (_can customize posts per page_)
-  - ✅ **Category pages** included
-  - 💬 **Posts JSON API**
-- 📝 **mdsvex** pre-installed--use Svelte components inside Markdown!
-  - 🔗 **Rehype** plugins are included to generate unique heading IDs, for
-    direct linking
-- 📱 **Responsive and accessible defaults**; includes a "skip to content" link
-  and accessible mobile nav menu
-- 🔄 **Page transitions** (_fancy and customizable!_)
-- 🔎 **Basic SEO** for blog posts (_strongly recommend checking that out for
-  yourself, though_)
-- 📰 **RSS feed** set up and ready to go (_though it could also likely benefit
-  from some optimization_); just update `src/lib/config.js`
-- 💈 **Basic CSS ready to use, customize, or remove!** Want to use Sass or
-  Tailwind instead? Just install them!
-  ([Directions for Tailwind can be found here](https://tailwindcss.com/docs/guides/sveltekit).)
-  Prefer to write your own? Delete `static/css` and add your own links in
-  `+layout.svelte`.
-- ℹ️ **Fonts included**. (No more built-in Google tracking.)
+### Độc lập: 
+Các thành phần trong hệ thống có thể độc lập với nhau, mỗi máy tính có thể chạy các chương trình riêng biệt.
 
-## Quick Start
+### Tính sẵn sàng cao: 
+Hệ thống phân tán có thể đảm bảo tính khả dụng cao, nếu một phần của hệ thống gặp sự cố, các phần khác vẫn có thể tiếp tục hoạt động.
 
-Clone or download
-[this repo](https://github.com/josh-collinsworth/sveltekit-blog-starter), then
-install the dependencies and run the dev server:
+## Lợi ích của hệ thống phân tán:
+### Tính mở rộng: 
+Dễ dàng mở rộng hệ thống bằng cách thêm các nút mới mà không ảnh hưởng đến các thành phần hiện có.
 
-```
-npx degit https://github.com/josh-collinsworth/sveltekit-blog-starter my-sveltekit-blog
-cd my-sveltekit-blog
-npm install
-npm run dev -- --open
-```
+### Tính chịu lỗi: 
+Nếu một phần của hệ thống bị hỏng, các phần khác vẫn có thể tiếp tục hoạt động, giúp tăng tính ổn định và độ tin cậy.
 
-That should get a dev server up and running (assuming you have npm and Node
-installed already). Any saved changes to components and styles should
-auto-refresh blazingly fast.
+### Tính chia sẻ tài nguyên: 
+Các tài nguyên như máy chủ, cơ sở dữ liệu, phần mềm có thể được chia sẻ và sử dụng bởi nhiều người và hệ thống.
 
-Now all you need to do is:
+## Các ví dụ về hệ thống phân tán:
+### Hệ thống máy chủ web: 
+Các máy chủ web thường được phân tán để xử lý yêu cầu từ người dùng và đảm bảo tính sẵn sàng.
 
-- Update the `src/lib/config.js` file
-- Drop your Markdown posts into `src/lib/posts`
-- Optionally, customize the styles in `static/css`
+### Hệ thống lưu trữ đám mây: 
+Các dịch vụ như Google Drive, Dropbox, AWS là các hệ thống phân tán, nơi dữ liệu được lưu trữ trên nhiều máy chủ ở các địa điểm khác nhau.
 
-GLHF! Details below. 👇
+### Blockchain: 
+Là một hệ thống phân tán, nơi mỗi nút trong mạng có thể kiểm tra và xác nhận các giao dịch mà không cần đến sự can thiệp của một bên trung gian.
 
-(_Feel free to
-[open an issue](https://github.com/josh-collinsworth/sveltekit-blog-starter/issues/new)
-if you come across one._)
+# Các ứng dụng của hệ thống phân tán
+Hệ thống phân tán có rất nhiều ứng dụng trong các lĩnh vực khác nhau nhờ vào khả năng phân tán tài nguyên, khả năng chịu lỗi, và tính mở rộng. Dưới đây là một số ứng dụng phổ biến của hệ thống phân tán:
 
-## Customization
+### Lưu trữ đám mây (Cloud Storage)
+Ví dụ: Google Drive, Dropbox, Amazon S3
 
-Be sure to update `src/lib/config.js` to reflect your site's domain,
-preferences, etc. This is also where the nav menu can be updated.
+Hệ thống phân tán được sử dụng để lưu trữ và đồng bộ hóa dữ liệu trên nhiều máy chủ ở nhiều vị trí địa lý khác nhau. Người dùng có thể truy cập dữ liệu từ bất kỳ đâu mà không phải lo ngại về việc mất dữ liệu vì hệ thống có khả năng chịu lỗi và sao lưu dữ liệu trên các máy chủ khác nhau.
 
-**It's very important to update this file with the specific details of your
-site.** Info from this file is used in your RSS feed and SEO meta tags, so don't
-launch without updating it.
+### Dịch vụ Web và Mạng xã hội
+Ví dụ: Facebook, Twitter, Instagram, YouTube
 
-## Adding new posts
+Các nền tảng mạng xã hội và dịch vụ web lớn sử dụng hệ thống phân tán để xử lý hàng triệu yêu cầu người dùng mỗi giây. Các máy chủ web và cơ sở dữ liệu phân tán giúp hệ thống mở rộng và chịu tải tốt hơn.
 
-Adding new posts is as simple as dropping a new `.md` file into `src/lib/posts`.
-New posts will automatically show up on the site, be added to the posts API, and
-any category pages.
+### Hệ thống thanh toán điện tử và Blockchain
+Ví dụ: Bitcoin, Ethereum
 
-A few demo Markdown posts are included, and highlight some of the features of
-this starter. These demo posts can be updated or removed, but it may be best to
-use one as a starting point, just for the frontmatter properties.
+Các mạng blockchain là hệ thống phân tán, trong đó dữ liệu giao dịch được phân tán trên nhiều nút mạng. Mỗi nút kiểm tra và xác nhận giao dịch mà không cần sự can thiệp của bên trung gian, giúp đảm bảo tính bảo mật và minh bạch.
 
-If you want to use other frontmatter properties in the template (or just modify
-the layout), make changes in `src/routes/blog/[post]/+page.svelte`.
+### Dữ liệu lớn và phân tích (Big Data and Analytics)
+Ví dụ: Hadoop, Apache Spark
 
-⚠️ **Note: posts should have a `date` and an `excerpt` defined in the
-frontmatter.** They're sorted by `date`, and use `excerpt` in page meta tags
-(for SEO, social sharing, etc.) There are also other frontmatter properties used
-to enhance the site experience, like the `coverWidth` and `coverHeight`, which
-are used in the template to reserve space for the image, minimizing cumulative
-layout shift.
+Hệ thống phân tán được sử dụng trong các ứng dụng phân tích dữ liệu lớn, nơi dữ liệu được chia nhỏ và xử lý song song trên nhiều máy chủ. Điều này giúp xử lý và phân tích dữ liệu khổng lồ một cách nhanh chóng và hiệu quả.
 
-The starter will still work without `date` properties in your posts, but the
-sorting won't be right. Similarly, you can have posts without an `excerpt`, but
-your SEO/social previews will be sub-optimal.
+### Hệ thống chia sẻ tài nguyên
+Ví dụ: Hệ thống chia sẻ tài nguyên tính toán (Grid Computing), máy chủ ảo (Virtualization)
 
-Also: while there's no link to it by default, `/blog/category` exists as an
-archive of all your post categories.
+Các hệ thống phân tán cho phép chia sẻ tài nguyên tính toán, bộ nhớ, hoặc băng thông trên nhiều máy tính trong mạng. Ví dụ, hệ thống Grid Computing có thể cho phép các nhà nghiên cứu chia sẻ sức mạnh tính toán từ các máy tính khác nhau trên toàn cầu để giải quyết các bài toán phức tạp.
 
-### Pagination
+### Hệ thống phân tán thời gian thực
+Ví dụ: Hệ thống điều khiển giao thông, mạng điện, hệ thống điều khiển công nghiệp
 
-Pagination automatically kicks in once you have more posts than the
-`postsPerPage` option in `src/lib/config.js`. This means you won't see the
-pagination right away unless you either change `postsPerPage` to a very low
-number, or add several more Markdown files to the `src/lib/posts` folder.
+Các hệ thống phân tán thời gian thực giúp giám sát và điều khiển các quá trình trong thời gian thực. Ví dụ, trong các hệ thống giao thông thông minh, dữ liệu từ các cảm biến giao thông được thu thập và phân tích để tối ưu hóa đèn tín hiệu và luồng giao thông.
 
-**Note:** both the normal `/blog` feed _and_ the category feeds at
-`/category/[category]` are automatically paginated.
+### Hệ thống tìm kiếm
+Ví dụ: Google Search, Bing
 
-### RSS
+Các công cụ tìm kiếm sử dụng hệ thống phân tán để thu thập, lưu trữ và xử lý lượng lớn dữ liệu từ web. Quá trình tìm kiếm và xếp hạng các trang web được phân tán trên nhiều máy chủ để tối ưu hóa tốc độ và khả năng mở rộng.
 
-This starter also includes a basic RSS feed. It's very minimal, so you may want
-to tweak it depending on your XML feed needs, but it _does_ work out of the box.
+### Ứng dụng di động và IoT (Internet of Things)
+Ví dụ: Các ứng dụng thông minh (smart home), các hệ thống giám sát từ xa
 
-Update the `config` details in `src/lib/config.js` to get your site's unique
-info correct. (You could also pull this info in other places, or add to it, to
-keep things consistent, but that's up to you.)
+Các hệ thống phân tán được sử dụng trong các ứng dụng IoT để thu thập và xử lý dữ liệu từ nhiều thiết bị kết nối (như cảm biến, thiết bị gia đình thông minh, hoặc xe tự lái). Dữ liệu được phân phối và xử lý trên các máy chủ hoặc trong đám mây, giúp tối ưu hóa việc giám sát và ra quyết định.
 
-## CSS
+### Hệ thống trò chơi trực tuyến
+Ví dụ: World of Warcraft, Fortnite
 
-**By default, all CSS in this starter is global vanilla CSS.** It's located in
-`static/css` (linked from `+layout.svelte`).
+Các trò chơi trực tuyến yêu cầu hệ thống phân tán để xử lý và đồng bộ hóa các hành động của người chơi trên toàn thế giới. Điều này giúp duy trì kết nối và trạng thái của trò chơi một cách chính xác cho mọi người chơi trong thời gian thực.
 
-I didn't use component `<style>` blocks because, while component-based scoped
-CSS is very nice, it can also be hard to track down and update. Since this is a
-starter, I felt it was best to keep all the styles together in one place, and
-let you, the author, decide whether you want to keep them as they are, move to
-scoped CSS instead, or use a mixture.
+### Hệ thống viễn thông
+Ví dụ: Mạng 5G, các hệ thống chuyển mạch viễn thông
 
-(_Note: previous versions of this starter came with Sass pre-installed. I've
-removed it now because it seems like vanilla CSS is almost entirely as powerful
-as Sass now anyway, and because it's probably easier for people who want it to
-opt in than for those who don't to opt out_.)
+Các hệ thống phân tán được sử dụng để xử lý lưu lượng mạng và truyền tải dữ liệu trong các mạng viễn thông, giúp tối ưu hóa băng thông, giảm độ trễ và đảm bảo kết nối ổn định cho hàng triệu người dùng.
 
-## Site navigation menus
+### Hệ thống quản lý cơ sở dữ liệu phân tán
+Ví dụ: Google Spanner, Amazon DynamoDB
 
-To add or remove pages from the site's navigation menu (in both the header and
-footer), edit the `navItems` array in `src/lib/config.js`. Items there will be
-automatically added to the main menu in the header and footer, and the mobile
-nav menu. They'll also have proper classes and ARIA attributes to show when
-they're the current page.
+Hệ thống cơ sở dữ liệu phân tán giúp duy trì dữ liệu nhất quán và khả năng truy cập từ nhiều máy chủ khác nhau. Chúng cho phép quản lý lượng dữ liệu lớn và hỗ trợ các ứng dụng có yêu cầu cao về tính sẵn sàng và hiệu suất.
 
-## Colors
+### Hệ thống phát hiện và phòng chống tấn công mạng (IDS/IPS)
+Ví dụ: Hệ thống phân tán phòng chống xâm nhập (Intrusion Detection Systems)
 
-This starter has a default color palette (Credit to
-[coolors.co](https://coolors.co/palettes/trending)) but you can easily override
-those in the CSS. The color variable values can be found in
-`static/css/vars.css`.
+Các hệ thống phân tán giúp giám sát và phát hiện các mối đe dọa trên mạng từ nhiều điểm khác nhau, bảo vệ mạng khỏi các cuộc tấn công phân tán.
 
-## Fonts
+# Các khái niệm chính của hệ thống phân tán
 
-Previously, fonts were loaded from Google Fonts, but now they're hosted locally,
-for moderately better performance and a 100% reduction in tracking.
+### Scalability
 
-The fonts in question are
-[Atkinson Hyperlegible](https://brailleinstitute.org/freefont) by the Braille
-Institute, and [Fira Code](https://github.com/tonsky/FiraCode) by Nikita
-Prokopov. The fonts are open-source; please consider supporting the authors.
+**Khả năng mở rộng** là khả năng của một hệ thống hoặc ứng dụng để xử lý được một lượng công việc lớn hơn khi tăng thêm tài nguyên (như máy chủ, bộ nhớ, băng thông, v.v.). Một hệ thống có khả năng mở rộng tốt có thể duy trì hiệu suất và tính ổn định khi tải của hệ thống tăng lên.
 
-The font files themselves are hosted in `static/fonts`. They are linked from the
-`fonts.css` file, and set in `typography.css`.
+**Mở rộng theo chiều ngang (horizontal scalability)** và **mở rộng theo chiều dọc (vertical scalability)** là hai cách chính để mở rộng hệ thống.
+### Fault Tolerance
 
-## Components
+**Khả năng chịu lỗi** là khả năng của một hệ thống tiếp tục hoạt động bình thường ngay cả khi có sự cố hoặc lỗi xảy ra ở một hoặc nhiều thành phần trong hệ thống. Các hệ thống chịu lỗi cao có thể khôi phục sau sự cố mà không ảnh hưởng đến trải nghiệm người dùng hoặc hoạt động chung của hệ thống.
+### Availability
 
-This starter includes only a handful of structural components, for the header,
-footer, site nav, posts lists (since lists of posts are repeated in several
-locations), and pagination (plus a couple that are actually just SVG icons).
+**Tính sẵn sàng** đề cập đến khả năng của một hệ thống hoặc dịch vụ có sẵn và có thể sử dụng được vào bất kỳ thời điểm nào. Tính sẵn sàng cao có nghĩa là hệ thống có thể duy trì hoạt động liên tục mà không có thời gian chết (downtime) đáng kể. Hệ thống có tính sẵn sàng cao có thể phục hồi nhanh chóng từ các sự cố và luôn có thể truy cập.
+### Transparency
 
-You're welcome and encouraged to create your own (using them in Markdown is
-fun!); I just didn't want to push authors too far in any component direction
-right off the bat.
+**Tính minh bạch** trong hệ thống phân tán có nghĩa là việc người dùng hoặc các ứng dụng không cần phải biết về cách thức hệ thống phân tán hoạt động phía sau. Điều này bao gồm việc ẩn đi các chi tiết như sự phân tán về địa lý, phân chia dữ liệu, hoặc các cơ chế đồng bộ hóa, giúp người dùng chỉ tập trung vào các tính năng và chức năng của hệ thống mà không cần quan tâm đến các vấn đề kỹ thuật phức tạp.
+### Concurrency
 
-## Static files
+**Concurrency** là khả năng của hệ thống để xử lý nhiều tác vụ (tasks) trong cùng một thời điểm, dù các tác vụ này có thể không thực sự được thực thi cùng một lúc. Điều này giúp tối ưu hóa hiệu suất hệ thống, đặc biệt trong môi trường đa người dùng hoặc đa tiến trình. Các hệ thống đồng thời sử dụng cơ chế chia sẻ tài nguyên và đồng bộ hóa để đảm bảo các tác vụ không gây xung đột.
+### Parallelism
 
-Things that should just live in the site root of the finished site (like a
-`robots.txt` file, favicon, or maybe images) should go in the `static` folder.
-If you link to them, use the root path (e.g., `/images/my.png`, not
-`../static/images/my.png`).
+**Parallelism** là khả năng của hệ thống để thực hiện nhiều tác vụ cùng một lúc (thực sự cùng thời gian). Ví dụ, một hệ thống có thể chạy nhiều tiến trình hoặc luồng (threads) đồng thời trên nhiều lõi CPU khác nhau. Điều này giúp cải thiện tốc độ và hiệu suất của các tác vụ tính toán phức tạp hoặc xử lý dữ liệu lớn.
+### Openness
 
-(Placeholder images credit [Unsplash](https://unsplash.com); photographer names
-are in the file names.)
+**Openness** đề cập đến việc hệ thống sử dụng các tiêu chuẩn mở hoặc các giao thức dễ dàng tiếp cận và sử dụng bởi cộng đồng phát triển phần mềm hoặc các tổ chức khác. Một hệ thống mở thường hỗ trợ tích hợp dễ dàng với các hệ thống khác và cho phép người dùng hoặc nhà phát triển tùy chỉnh hoặc thay đổi phần mềm.
+### Vertical Scaling
 
-## Building, deploying and hosting
+**Vertical Scaling** là việc nâng cấp một máy chủ hoặc thiết bị phần cứng để tăng công suất xử lý (tăng bộ xử lý, bộ nhớ, hoặc ổ cứng). Việc mở rộng theo chiều dọc giúp hệ thống xử lý nhiều yêu cầu hơn nhưng giới hạn bởi khả năng tối đa của phần cứng. Ví dụ, nâng cấp RAM hoặc CPU của một máy chủ.
+### Horizontal Scaling
 
-The build command (from package.json) is simply:
+**Horizontal Scaling** là việc thêm nhiều máy chủ vào hệ thống để phân chia tải công việc giữa các máy chủ. Mở rộng theo chiều ngang giúp hệ thống có khả năng xử lý nhiều yêu cầu hơn và có thể dễ dàng mở rộng bằng cách thêm vào các máy chủ hoặc tài nguyên tính toán bổ sung.
+### Load Balancer
 
-```
-npm run build
-```
+**Load Balancer** là một thành phần hệ thống giúp phân phối tải công việc (như yêu cầu từ người dùng) đến nhiều máy chủ hoặc dịch vụ trong một hệ thống phân tán. Mục đích là để đảm bảo rằng không một máy chủ nào bị quá tải, giúp cải thiện hiệu suất và độ sẵn sàng của hệ thống.
+### Replication
 
-You can use that as your build command if your repo is connected to a host like
-Netlify or Vercel, which automatically deploys.
-
-Or, if you prefer, you can run `npm run build` locally to generate the static
-files. That will result in a `build` folder you can upload anywhere a static
-site can be hosted.
-
-Use `npm run preview` _after_ a build to preview the built site locally.
-
-## Adding Tailwind
-
-[The directions for adding Tailwind can be found in the Tailwind docs, here](https://tailwindcss.com/docs/guides/sveltekit).
-
-The only thing worth noting is: this starter's existing CSS files won't be in
-the Tailwind path after following those steps. You can either just delete them
-and start from scratch; or, you can copy the CSS into your Tailwind `app.css`
-file. (Or, move the CSS files into `src/lib`, and import each one individually.)
-
-It's up to you. Just note that Tailwind automatically applies some defaults, so
-even if you _do_ choose to keep this starter's default styling, your site might
-not look the same after installing Tailwind. (Headings, for example, just look
-like plain text when using Tailwind, unless classes are applied.)
-
-## Further documentation
-
-I assume at least a little bit of knowledge of SvelteKit and/or similar static
-site generators here, but be sure to read
-[the SvelteKit docs](https://kit.svelte.dev/docs) for more info.
-
-## Contributing
-
-I've tried my best to make sure this starter is up to date with the latest
-SvelteKit, but I'm sure improvements can be made. Feel free to
-[visit the repo](https://github.com/josh-collinsworth/sveltekit-blog-starter)
-and submit a pull request, or
-[contact me directly](https://joshcollinsworth.com/contact).
+**Replication** là quá trình sao chép dữ liệu hoặc các thành phần của hệ thống từ một máy chủ hoặc địa điểm này sang máy chủ hoặc địa điểm khác trong hệ thống phân tán. Điều này giúp tăng tính sẵn sàng và khả năng chịu lỗi của hệ thống. Nếu một bản sao của dữ liệu bị lỗi, các bản sao khác có thể được sử dụng để thay thế, đảm bảo rằng dữ liệu luôn có sẵn.
