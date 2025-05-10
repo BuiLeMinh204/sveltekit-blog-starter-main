@@ -79,6 +79,7 @@ Nhược điểm: cấu hình phức tạp, phụ thuộc broker, khó debug.
 | Celery   | Redis/RabbitMQ | Trung   | Cao       | Có        |
 | RQ       | Redis          | Dễ      | Trung     | Có        |
 | Dramatiq | Redis          | Dễ      | Cao       | Có        |
+
 *5. Ứng dụng thực tế*
 Gửi email nền, xử lý ảnh, gọi API, cron task.
 
