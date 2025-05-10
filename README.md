@@ -94,6 +94,7 @@ Phù hợp hệ thống microservices.
 ### 📅 Tiến độ dự kiến
 
 *Tuần Việc cần làm*
+
 1  Tìm hiểu Celery, thiết lập môi trường
 
 2  Viết lý thuyết, so sánh, ứng dụng
