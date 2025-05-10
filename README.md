@@ -59,11 +59,11 @@ Celery được dùng để xử lý tác vụ bất đồng bộ và định k�
 
 # KẾ HOẠCH BÀI GIỮA KỲ: CELERY
 ## 🎯 Mục tiêu
-Hiểu và trình bày vai trò của Celery trong hệ thống phân tán.
+*Hiểu và trình bày vai trò của Celery trong hệ thống phân tán*
 
-Phân tích ưu, nhược điểm, so sánh với các thư viện khác.
+*Phân tích ưu, nhược điểm, so sánh với các thư viện khác*
 
-Xây dựng một ứng dụng mẫu có sử dụng Celery
+*Xây dựng một ứng dụng mẫu có sử dụng Celery*
 
 ## Nội dung trình bày
 ### 1. Giới thiệu
