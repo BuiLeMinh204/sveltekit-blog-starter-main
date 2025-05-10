@@ -91,7 +91,7 @@ Phù hợp hệ thống microservices.
 
 4  Viết báo cáo, làm slide
 
-# 💡 Dự án sử dụng Celery
+# 💡Dự án sử dụng Celery
 ## Gửi email nền (Email Queue App)
 Người dùng nhập địa chỉ email và nội dung
 
