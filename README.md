@@ -71,7 +71,9 @@ Cách hoạt động của hàng đợi tác vụ.
 Ưu điểm: nhanh, mạnh, hỗ trợ retry/schedule, dễ mở rộng.
 
 Nhược điểm: cấu hình phức tạp, phụ thuộc broker, khó debug.
+
 *4. So sánh nhanh*
+
 | Thư viện | Broker         | Dễ dùng | Hiệu năng | Scheduler |
 | -------- | -------------- | ------- | --------- | --------- |
 | Celery   | Redis/RabbitMQ | Trung   | Cao       | Có        |
