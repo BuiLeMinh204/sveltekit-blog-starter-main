@@ -11,14 +11,12 @@ Cho phép bạn gửi một công việc vào hàng đợi để xử lý sau m�
 Có thể chạy nhiều worker trên nhiều máy chủ. Dễ dàng mở rộng quy mô nếu lượng công việc tăng.
 ### Giám sát và kiểm soát công việc
 Hỗ trợ theo dõi trạng thái task, retry khi lỗi, timeout, ưu tiên task, v.v. Có thể kết hợp với Flower để có giao diện giám sát trực quan.
-
 ## Celery giải quyết vấn đề gì?
 Celery được dùng để xử lý tác vụ bất đồng bộ và định kỳ, đặc biệt hữu ích khi:
 *Giao diện bị chậm do xử lý lâu* 	
 *Không thể lên lịch tác vụ định kỳ*	
 *Khó mở rộng xử lý trên nhiều máy*	
 *Không kiểm soát được retry, timeout*
-
 # Điểm mạnh của Celery
 ⚡ Hiệu năng cao, xử lý hàng triệu task/phút nếu cấu hình đúng.
 
@@ -31,7 +29,6 @@ Celery được dùng để xử lý tác vụ bất đồng bộ và định k�
 🌍 Xử lý phân tán: Chạy nhiều worker trên nhiều server
 
 📊 Flower: Web UI để giám sát các task, worker, lịch sử, trạng thái
-
 # Điểm yếu của Celery
 🧠 Độ phức tạp cao khi cấu hình hoặc scale hệ thống
 
@@ -40,10 +37,8 @@ Celery được dùng để xử lý tác vụ bất đồng bộ và định k�
 ⚙️ Debug khó hơn: Vì task chạy nền, không dễ thấy lỗi ngay lập tức
 
 🛠️ Hạn chế native support cho async/await (một số phần cần cấu hình đặc biệt hoặc dùng thư viện bổ trợ như celery-asyncio)
-
 # So sánh Celery với các thư viện/framework khác
 *Celery mạnh, linh hoạt và phù hợp cho dự án lớn hoặc cần xử lý tác vụ phức tạp. Nhưng nếu bạn chỉ cần một hàng đợi đơn giản, RQ, Huey hoặc Dramatiq có thể nhẹ hơn và dễ triển khai hơn*
-
 # Ứng dụng thực tế của Celery
 📧 Gửi email nền trong web app (đăng ký, quên mật khẩu, thông báo)
 
@@ -56,7 +51,6 @@ Celery được dùng để xử lý tác vụ bất đồng bộ và định k�
 🌐 Gọi API bên ngoài mà không chặn luồng chính
 
 💬 Queue hệ thống thông báo, xử lý nhắn tin nền
-
 # KẾ HOẠCH BÀI GIỮA KỲ: CELERY
 ## 🎯 Mục tiêu
 *Hiểu và trình bày vai trò của Celery trong hệ thống phân tán*
@@ -64,38 +58,29 @@ Celery được dùng để xử lý tác vụ bất đồng bộ và định k�
 *Phân tích ưu, nhược điểm, so sánh với các thư viện khác*
 
 *Xây dựng một ứng dụng mẫu có sử dụng Celery*
-
 ## Nội dung trình bày
 ### 1. Giới thiệu
 Tác vụ nền là gì? Vai trò trong hệ phân tán.
 
 Celery giúp xử lý bất đồng bộ hiệu quả như thế nào.
-
 ### 2. Kiến trúc Celery
 Thành phần chính: Client – Broker – Worker – Backend.
 
 Cách hoạt động của hàng đợi tác vụ.
-
 ### 3. Ưu điểm & Nhược điểm
 Ưu điểm: nhanh, mạnh, hỗ trợ retry/schedule, dễ mở rộng.
 
 Nhược điểm: cấu hình phức tạp, phụ thuộc broker, khó debug.
-
 ### 4. So sánh nhanh
 | Thư viện | Broker         | Dễ dùng | Hiệu năng | Scheduler |
 | -------- | -------------- | ------- | --------- | --------- |
 | Celery   | Redis/RabbitMQ | Trung   | Cao       | Có        |
 | RQ       | Redis          | Dễ      | Trung     | Có        |
 | Dramatiq | Redis          | Dễ      | Cao       | Có        |
-
 ### 5. Ứng dụng thực tế
 Gửi email nền, xử lý ảnh, gọi API, cron task.
 
 Phù hợp hệ thống microservices.
-
-### 6. Demo (nếu có)
-Flask + Celery + Redis: Gửi task nền, theo dõi trạng thái task.
-
 ## 📅 Tiến độ dự kiến
 ### Tuần Việc cần làm
 1  Tìm hiểu Celery, thiết lập môi trường
