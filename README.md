@@ -98,7 +98,7 @@ Flask + Celery + Redis: Gửi task nền, theo dõi trạng thái task.
 
 ## 📅 Tiến độ dự kiến
 ### Tuần Việc cần làm
-1	Tìm hiểu Celery, thiết lập môi trường
-2	Viết lý thuyết, so sánh, ứng dụng
-3	Làm demo đơn giản
-4	Viết báo cáo, làm slide
+1  Tìm hiểu Celery, thiết lập môi trường
+2  Viết lý thuyết, so sánh, ứng dụng
+3  Làm demo đơn giản
+4  Viết báo cáo, làm slide
