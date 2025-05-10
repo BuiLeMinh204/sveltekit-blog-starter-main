@@ -90,3 +90,11 @@ Phù hợp hệ thống microservices.
 3  Làm demo đơn giản
 
 4  Viết báo cáo, làm slide
+
+# Dự án sử dụng Celery
+## Gửi email nền (Email Queue App)
+Người dùng nhập địa chỉ email và nội dung
+
+Hệ thống dùng Celery để gửi email nền, tránh làm chậm giao diện
+
+Có thể mô phỏng gửi mail nếu không dùng SMTP thật
