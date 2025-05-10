@@ -23,10 +23,15 @@ Hỗ trợ theo dõi trạng thái task, retry khi lỗi, timeout, ưu tiên tas
 
 ### Celery giải quyết vấn đề gì?
 Celery được dùng để xử lý tác vụ bất đồng bộ và định kỳ, đặc biệt hữu ích khi:
+
 *Giao diện bị chậm do xử lý lâu* 	
+
 *Không thể lên lịch tác vụ định kỳ*	
+
 *Khó mở rộng xử lý trên nhiều máy*	
+
 *Không kiểm soát được retry, timeout*
+
 ## Điểm mạnh của Celery
 ⚡ Hiệu năng cao, xử lý hàng triệu task/phút nếu cấu hình đúng.
 
