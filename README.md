@@ -81,10 +81,13 @@ Nhược điểm: cấu hình phức tạp, phụ thuộc broker, khó debug.
 | Dramatiq | Redis          | Dễ      | Cao       | Có        |
 
 *5. Ứng dụng thực tế*
+
 Gửi email nền, xử lý ảnh, gọi API, cron task.
 
 Phù hợp hệ thống microservices.
+
 ### 📅 Tiến độ dự kiến
+
 *Tuần Việc cần làm*
 1  Tìm hiểu Celery, thiết lập môi trường
 
@@ -96,6 +99,7 @@ Phù hợp hệ thống microservices.
 
 ## 💡Dự án sử dụng Celery
 ### Gửi email nền (Email Queue App)
+
 Người dùng nhập địa chỉ email và nội dung
 
 Hệ thống dùng Celery để gửi email nền, tránh làm chậm giao diện
