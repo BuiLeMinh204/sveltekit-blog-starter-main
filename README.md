@@ -60,14 +60,19 @@ Celery được dùng để xử lý tác vụ bất đồng bộ và định k�
 *Xây dựng một ứng dụng mẫu có sử dụng Celery*
 ### Nội dung trình bày
 *1. Giới thiệu*
+
 Tác vụ nền là gì? Vai trò trong hệ phân tán.
 
-Celery giúp xử lý bất đồng bộ hiệu quả như thế nào.
-*2. Kiến trúc Celery*
-Thành phần chính: Client – Broker – Worker – Backend.
+Celery giúp xử lý bất đồng bộ hiệu quả như thế nào. 
 
-Cách hoạt động của hàng đợi tác vụ.
+*2. Kiến trúc Celery*
+
+Thành phần chính: Client – Broker – Worker – Backend
+
+Cách hoạt động của hàng đợi tác vụ
+
 *3. Ưu điểm & Nhược điểm*
+
 Ưu điểm: nhanh, mạnh, hỗ trợ retry/schedule, dễ mở rộng.
 
 Nhược điểm: cấu hình phức tạp, phụ thuộc broker, khó debug.
