@@ -8,6 +8,14 @@
 	import { fade } from 'svelte/transition';
 
 	export let data;
+
+	// Cập nhật trang hiện tại
+	currentPage.set(data.path);
+
+	onMount(() => {
+		const navRoutes = navItems.map(item => item.route);
+		preloadCode(...navRoutes);
+	});
 </script>
 
 <svelte:head>
@@ -28,16 +36,6 @@
 	{/key}
 	<Footer />
 </div>
-
-<script>
-	// Cập nhật trang hiện tại trong store
-	$currentPage = data.path;
-
-	onMount(() => {
-		const navRoutes = navItems.map(item => item.route);
-		preloadCode(...navRoutes);
-	});
-</script>
 
 <style>
 	main {
