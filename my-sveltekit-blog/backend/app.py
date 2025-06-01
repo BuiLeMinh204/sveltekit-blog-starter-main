@@ -1,7 +1,9 @@
+from flask_cors import CORS
 from flask import Flask, request, jsonify
 from tasks import send_email
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/send-email', methods=['POST'])
 def send_email_route():
