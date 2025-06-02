@@ -24,6 +24,11 @@ def send_email_route():
     subject = data.get('subject')
     body = data.get('body')
 
+@app.route("/", methods=["GET"])
+def index():
+    return "✅ Flask backend is running!", 200
+
+
     # ✅ Gửi task cho Celery
     send_email.delay(to, subject, body)
 
