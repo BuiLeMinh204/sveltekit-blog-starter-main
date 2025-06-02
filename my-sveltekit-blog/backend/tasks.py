@@ -1,9 +1,8 @@
 from celery import Celery
-from flask_mail import Message, Mail
 from flask import Flask
+from flask_mail import Mail, Message
 from config import *
 
-# ✅ Khởi tạo Flask app (cần để Flask-Mail hoạt động)
 flask_app = Flask(__name__)
 flask_app.config.update(
     MAIL_SERVER=MAIL_SERVER,
@@ -14,14 +13,13 @@ flask_app.config.update(
     MAIL_DEFAULT_SENDER=MAIL_DEFAULT_SENDER
 )
 
-# ✅ Khởi tạo Celery
+mail = Mail(flask_app)
 celery = Celery('tasks', broker=CELERY_BROKER_URL, backend=CELERY_RESULT_BACKEND)
 
-# ✅ Khởi tạo Flask-Mail với app
-mail = Mail(flask_app)
-
-@celery.task
-def send_email(to, subject, body):
-    with flask_app.app_context():  # đảm bảo có context Flask để gửi email
-        msg = Message(subject, recipients=[to], body=body)
+@celery.task(bind=True, autoretry_for=(Exception,), retry_backoff=True, retry_kwargs={'max_retries': 5})
+def send_email(self, to, subject, body):
+    with flask_app.app_context():
+        print(f"📨 Sending email to {to}...")
+        msg = Message(subject=subject, recipients=[to], body=body)
         mail.send(msg)
+        print("✅ Email sent successfully")
