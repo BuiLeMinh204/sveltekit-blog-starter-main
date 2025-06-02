@@ -10,7 +10,7 @@ def send_test_email(i):
     print(f"#{i} - {res.status_code}: {res.json()}")
 
 threads = []
-for i in range(20):  # 50 email song song
+for i in range(20): 
     t = threading.Thread(target=send_test_email, args=(i,))
     threads.append(t)
     t.start()
