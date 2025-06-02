@@ -14,13 +14,19 @@ excerpt: Ấn vào để xem thêm ....
 ## Giai đoạn 2
 ### 2. Kiến trúc hệ thống
 *2.1. Kiến trúc tổng thể*
+
 Hệ thống được thiết kế dựa trên mô hình ứng dụng web phân tán ba lớp, gồm tầng trình diễn (frontend), tầng nghiệp vụ (backend) và tầng cơ sở dữ liệu (database). Trong đó, thành phần nổi bật là CockroachDB, một cơ sở dữ liệu phân tán được tích hợp thay cho các hệ quản trị truyền thống nhằm đảm bảo khả năng chịu lỗi, sao chép dữ liệu, và mở rộng ngang.
-Kiến trúc tổng thể được thể hiện như sau:
-•	Client (Browser): Giao diện người dùng xây dựng bằng Laravel Blade Template.
-•	Backend (Laravel Application): Xử lý nghiệp vụ, phân quyền người dùng, truy vấn dữ liệu.
-•	Database (CockroachDB Cluster): Lưu trữ dữ liệu toàn hệ thống, hỗ trợ replication và tự động phục hồi khi lỗi node.
-Hệ thống có thể triển khai trên nhiều máy (multi-node), các nút giao tiếp với nhau thông qua các giao thức thực tế như HTTP hoặc SQL TCP. Tất cả các yêu cầu CRUD được xử lý qua backend Laravel, sau đó giao tiếp với CockroachDB thông qua thư viện PDO/PostgreSQL tích hợp.
-Hình 2.1: Mô hình triển khai hệ thống
+
+*Kiến trúc tổng thể được thể hiện như sau:*
+
+Client (Browser): Giao diện người dùng xây dựng bằng Laravel Blade Template.
+
+Backend (Laravel Application): Xử lý nghiệp vụ, phân quyền người dùng, truy vấn dữ liệu.
+
+Database (CockroachDB Cluster): Lưu trữ dữ liệu toàn hệ thống, hỗ trợ replication và tự động phục hồi khi lỗi node.
+
+*Hình 2.1: Mô hình triển khai hệ thống*
+
 Copy code
 Client (Web Browser)
         ↓ HTTP
@@ -31,22 +37,39 @@ CockroachDB Cluster (Multi-node)
    ├── Node 2 (Replica)
    └── Node 3 (Replica)
 (cái này vẽ sau)
-•	2.2. Vai trò các thành phần chính
+
+*2.2. Vai trò các thành phần chính*
+
 <table> <thead> <tr> <th>Thành phần</th> <th>Vai trò chính</th> </tr> </thead> <tbody> <tr> <td>Laravel Framework</td> <td>Xây dựng backend, xử lý yêu cầu nghiệp vụ, định tuyến, tương tác với cơ sở dữ liệu</td> </tr> <tr> <td>CockroachDB Cluster</td> <td>Cơ sở dữ liệu phân tán lưu trữ toàn bộ dữ liệu hệ thống. Hỗ trợ replication, fault-tolerance</td> </tr> <tr> <td>Blade Template</td> <td>Tạo giao diện web động cho admin và bác sĩ</td> </tr> <tr> <td>Controllers</td> <td>Xử lý logic nghiệp vụ như quản lý hồ sơ, lịch hẹn, hóa đơn,…</td> </tr> <tr> <td>Models (Eloquent ORM)</td> <td>Đại diện cho các bảng dữ liệu, thực hiện thao tác ORM với CockroachDB</td> </tr> <tr> <td>Routes (web.php/api.php)</td> <td>Định tuyến các yêu cầu đến controller tương ứng</td> </tr> <tr> <td>Postman, Apache Bench</td> <td>Dùng để kiểm thử API và đo hiệu suất hệ thống</td> </tr> <tr> <td>Docker (nếu áp dụng)</td> <td>Tự động hóa triển khai hệ thống thành nhiều node</td> </tr> </tbody> </table>
-2.3. Sơ đồ Use Case và Phân quyền người dùng
+
+*2.3. Sơ đồ Use Case và Phân quyền người dùng*
+
 Hệ thống chia làm hai loại người dùng chính:
-•	Admin
-•	User
-STT	Use Case	Actor
-1	Đăng nhập	Admin, User
-2	Quản lý tài khoản người dùng	Admin
-3	Tạo/Sửa/Xóa mẫu email	Admin
-4	Soạn và gửi email	Admin, User
-5	Lên lịch gửi email	Admin, User
-6	Quản lý danh sách người nhận	Admin, User
-7	Xem lịch sử gửi email	Admin, User
-8	Thống kê, báo cáo email đã gửi	Admin
-9	Đăng xuất	Admin, User
+
+*Admin*
+
+*User*
+
+<table>
+  <thead>
+    <tr>
+      <th>Use Case</th>
+      <th>Actor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Đăng nhập</td><td>Admin, User</td></tr>
+    <tr><td>Quản lý tài khoản người dùng</td><td>Admin</td></tr>
+    <tr><td>Tạo/Sửa/Xóa mẫu email</td><td>Admin</td></tr>
+    <tr><td>Soạn và gửi email</td><td>Admin, User</td></tr>
+    <tr><td>Lên lịch gửi email</td><td>Admin, User</td></tr>
+    <tr><td>Quản lý danh sách người nhận</td><td>Admin, User</td></tr>
+    <tr><td>Xem lịch sử gửi email</td><td>Admin, User</td></tr>
+    <tr><td>Thống kê, báo cáo email đã gửi</td><td>Admin</td></tr>
+    <tr><td>Đăng xuất</td><td>Admin, User</td></tr>
+  </tbody>
+</table>
+
 
 Sơ đồ usecase
 ![alt text](../../../images/bach2.png)
