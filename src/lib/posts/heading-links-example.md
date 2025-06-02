@@ -72,7 +72,7 @@ Hệ thống chia làm hai loại người dùng chính:
 
 
 Sơ đồ usecase
-![alt text](../../../images/bach2.png)
+
  
 2.4. Sơ đồ cơ sở dữ liệu (ERD – Entity Relationship Diagram)
 Bảng	Mô tả
@@ -85,7 +85,7 @@ schedules	Lưu các email được lên lịch gửi
 
 Dưới đây là sơ đồ CSDL.
  
-![alt text](../../../images/bach1.png)
+
 
 3. Áp dụng các khái niệm phân tán
 3.1. Khả năng chịu lỗi (Fault Tolerance)
@@ -117,14 +117,7 @@ Kiểm tra thực tế: Dữ liệu thêm vào từ Laravel vẫn truy vấn đ�
 3.4. Ghi log và giám sát (Logging & Monitoring)
 Hệ thống cung cấp công cụ giám sát và ghi log đơn giản để hỗ trợ kiểm tra, xử lý lỗi và đánh giá hoạt động.
 •	Laravel logs: Ghi lại toàn bộ hoạt động của backend vào file storage/logs/laravel.log, bao gồm cả lỗi kết nối, hành vi người dùng, lỗi hệ thống,...
-•	CockroachDB Web UI: Truy cập tại http://<node_ip>:8080, cung cấp:
-o	Trạng thái cụm
-o	Thống kê queries
-o	Tình trạng replication
-o	Dung lượng dữ liệu từng node
-•	Giao diện dòng lệnh (CLI): Sử dụng câu lệnh cockroach debug và cockroach node status để kiểm tra chi tiết cụm.
-Ví dụ log thực tế:
-[2025-05-30 20:14:03] production.INFO: Doctor #3 created new medical record for patient #7
+
 3.5. Kiểm thử hiệu năng (Stress Test)
 Để kiểm tra độ ổn định và khả năng chịu tải của hệ thống, nhóm đã thực hiện các thử nghiệm mô phỏng nhiều người dùng truy cập đồng thời.
 Công cụ sử dụng:
