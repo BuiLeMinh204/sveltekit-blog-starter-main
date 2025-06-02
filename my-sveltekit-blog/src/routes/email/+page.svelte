@@ -13,7 +13,7 @@
           "Content-Type": "application/json"
         },
         body: JSON.stringify({ to, subject, body })
-      });
+      };
 
 
       const result = await res.json();
