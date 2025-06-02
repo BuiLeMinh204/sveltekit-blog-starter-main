@@ -6,7 +6,6 @@ from tasks import send_email
 app = Flask(__name__)
 CORS(app)
 
-# ✅ Cấu hình email (dùng Mailtrap làm ví dụ)
 app.config['MAIL_SERVER'] = 'sandbox.smtp.mailtrap.io'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USERNAME'] = 'a7c19b0407d4f3'
@@ -14,7 +13,6 @@ app.config['MAIL_PASSWORD'] = '5ba9e78a1b86bf'
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 
-# ✅ Khởi tạo Flask-Mail (để tasks.py có thể dùng)
 mail = Mail(app)
 
 @app.route('/send-email', methods=['POST'])
@@ -24,7 +22,6 @@ def send_email_route():
     subject = data.get('subject')
     body = data.get('body')
 
-    # ✅ Gửi task cho Celery
     send_email.delay(to, subject, body)
 
     return jsonify({"message": "Email has been queued."})
