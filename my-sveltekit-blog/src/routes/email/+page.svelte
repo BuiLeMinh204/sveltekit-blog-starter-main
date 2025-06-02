@@ -7,7 +7,7 @@
 
   async function sendEmail() {
     try {
-      const res = await fetch("https://flask-api-i5jl.onrender.com/send-email", {
+      const res = await fetch("https://gui-email-nen.onrender.com/send-email"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
