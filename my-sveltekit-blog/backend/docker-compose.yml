@@ -1,0 +1,40 @@
+
+version: '3'
+
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  backend:
+    build: .
+    command: gunicorn app:app --bind 0.0.0.0:5000
+    ports:
+      - "5000:5000"
+    environment:
+      - MAIL_SERVER=sandbox.smtp.mailtrap.io
+      - MAIL_PORT=587
+      - MAIL_USERNAME=a7c19b0407d4f3
+      - MAIL_PASSWORD=5ba9e78a1b86bf
+      - MAIL_USE_TLS=True
+      - MAIL_USE_SSL=False
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - redis
+
+  celery:
+    build: .
+    command: celery -A tasks worker --loglevel=info
+    environment:
+      - MAIL_SERVER=sandbox.smtp.mailtrap.io
+      - MAIL_PORT=587
+      - MAIL_USERNAME=a7c19b0407d4f3
+      - MAIL_PASSWORD=5ba9e78a1b86bf
+      - MAIL_USE_TLS=True
+      - MAIL_USE_SSL=False
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - redis
