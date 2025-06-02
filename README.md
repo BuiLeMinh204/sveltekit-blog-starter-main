@@ -1,5 +1,6 @@
 # Chào mừng bạn đến với blog của mình
 mình là Bùi Lê Minh - sinh viên khoa CNTT đại học Phenikaa
+mình là Tăng Văn Bách - sinh viên khoa CNTT đại học Phenikaa
 ## Đề tài thư viện Celery
 ### Mục đích chính của thư viện Celery
 
