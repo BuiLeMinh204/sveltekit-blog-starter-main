@@ -7,13 +7,13 @@
 
   async function sendEmail() {
     try {
-      const res = await fetch("https://gui-email-nen.onrender.com/send-email"), {
+      const res = await fetch("https://gui-email-nen.onrender.com/send-email", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({ to, subject, body })
-      };
+      });
 
 
       const result = await res.json();
