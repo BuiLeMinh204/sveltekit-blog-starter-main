@@ -7,10 +7,10 @@ app = Flask(__name__)
 CORS(app)
 
 # ✅ Cấu hình email (dùng Mailtrap làm ví dụ)
-app.config['MAIL_SERVER'] = 'smtp.mailtrap.io'
+app.config['MAIL_SERVER'] = 'sandbox.smtp.mailtrap.io'
 app.config['MAIL_PORT'] = 587
-app.config['MAIL_USERNAME'] = 'YOUR_MAILTRAP_USERNAME'
-app.config['MAIL_PASSWORD'] = 'YOUR_MAILTRAP_PASSWORD'
+app.config['MAIL_USERNAME'] = 'a7c19b0407d4f3'
+app.config['MAIL_PASSWORD'] = '5ba9e78a1b86bf'
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 
@@ -24,11 +24,6 @@ def send_email_route():
     subject = data.get('subject')
     body = data.get('body')
 
-@app.route("/", methods=["GET"])
-def index():
-    return "✅ Flask backend is running!", 200
-
-
     # ✅ Gửi task cho Celery
     send_email.delay(to, subject, body)
 
@@ -36,3 +31,9 @@ def index():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+@app.route("/", methods=["GET"])
+def index():
+    return "✅ Flask backend is running!", 200
+
