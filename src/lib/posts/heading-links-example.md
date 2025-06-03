@@ -174,6 +174,7 @@ Celery có khả năng khôi phục hệ thống sau lỗi dựa trên 3 yếu t
 •	Task có thể được cấu hình để Retry sau khi lỗi.
 
 •	Hữu ích khi có lỗi tạm thời như mất kết nối Email Server, API timeout...
+
    2. Task không bị mất khi worker chết:
   
 •	Task chỉ bị xóa khỏi hàng đợi nếu Worker Acknowledge (xác nhận) đã xử lý xong.
