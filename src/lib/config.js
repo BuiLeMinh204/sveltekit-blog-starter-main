@@ -5,8 +5,8 @@
  * PLEASE BE SURE TO UPDATE THEM ALL! Thank you!
  **/ 
 
-export const siteTitle = 'Lê Minh Blog'
-export const siteDescription = 'Built with the SvelteKit Static Blog Starter'
+export const siteTitle = 'Gửi Email Nền Blog'
+export const siteDescription = 'Báo Cáo Dự Án Gửi Email Nền'
 export const siteURL = 'example.com'
 export const siteLink = 'https://github.com/josh-collinsworth/sveltekit-blog-starter'
 export const siteAuthor = '- find and change this text in src/lib/config.js'
