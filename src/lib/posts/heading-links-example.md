@@ -15,162 +15,132 @@ excerpt: Ấn vào để xem thêm ....
 ### 2. Kiến trúc hệ thống
 *2.1. Kiến trúc tổng thể*
 
-Hệ thống được thiết kế dựa trên mô hình ứng dụng web phân tán ba lớp, gồm tầng trình diễn (frontend), tầng nghiệp vụ (backend) và tầng cơ sở dữ liệu (database). Trong đó, thành phần nổi bật là CockroachDB, một cơ sở dữ liệu phân tán được tích hợp thay cho các hệ quản trị truyền thống nhằm đảm bảo khả năng chịu lỗi, sao chép dữ liệu, và mở rộng ngang.
+| Thành phần                        | Vai trò                                                                                     |
+|----------------------------------|---------------------------------------------------------------------------------------------|
+| **Client (Web / Mobile)**        | Gửi yêu cầu HTTP đến server Flask (ví dụ: gửi email, xử lý file, tạo báo cáo...)           |
+| **Flask Web API**                | - Nhận yêu cầu từ client  <br> - Xử lý logic ban đầu  <br> - Gửi task bất đồng bộ đến Celery qua Redis  <br> - Phản hồi ngay cho client |
+| **Redis (Message Broker)**       | - Là hàng đợi trung gian truyền task từ Flask đến Celery  <br> - Đảm bảo lưu trữ task tạm thời  <br> - Phân phối task cho các worker |
+| **Celery Worker(s)**             | - Nhận task từ Redis và xử lý  <br> - Có thể triển khai nhiều worker song song (có thể trên nhiều máy chủ)  <br> - Trả kết quả nếu cần |
+| **Redis (Result Backend)** hoặc **Database** | - Lưu kết quả xử lý task (nếu hệ thống cần theo dõi trạng thái/kết quả)  <br> - Có thể là Redis, PostgreSQL, MongoDB… |
+| **Flower / Prometheus (tuỳ chọn)** | - Theo dõi trạng thái worker, task đang chạy, task lỗi, thời gian xử lý...  <br> - Hữu ích cho giám sát và khắc phục sự cố |
 
-*Kiến trúc tổng thể được thể hiện như sau:*
-
-Client (Browser): Giao diện người dùng xây dựng bằng Laravel Blade Template.
-
-Backend (Laravel Application): Xử lý nghiệp vụ, phân quyền người dùng, truy vấn dữ liệu.
-
-Database (CockroachDB Cluster): Lưu trữ dữ liệu toàn hệ thống, hỗ trợ replication và tự động phục hồi khi lỗi node.
-
-*Hình 2.1: Mô hình triển khai hệ thống*
-
-Copy code
-Client (Web Browser)
-        ↓ HTTP
-Laravel Backend (REST API + View)
-        ↓ SQL over TCP
-CockroachDB Cluster (Multi-node)
-   ├── Node 1 (Leader)
-   ├── Node 2 (Replica)
-   └── Node 3 (Replica)
-(cái này vẽ sau)
-
-*2.2. Vai trò các thành phần chính*
-
-<table> <thead> <tr> <th>Thành phần</th> <th>Vai trò chính</th> </tr> </thead> <tbody> <tr> <td>Laravel Framework</td> <td>Xây dựng backend, xử lý yêu cầu nghiệp vụ, định tuyến, tương tác với cơ sở dữ liệu</td> </tr> <tr> <td>CockroachDB Cluster</td> <td>Cơ sở dữ liệu phân tán lưu trữ toàn bộ dữ liệu hệ thống. Hỗ trợ replication, fault-tolerance</td> </tr> <tr> <td>Blade Template</td> <td>Tạo giao diện web động cho admin và bác sĩ</td> </tr> <tr> <td>Controllers</td> <td>Xử lý logic nghiệp vụ như quản lý hồ sơ, lịch hẹn, hóa đơn,…</td> </tr> <tr> <td>Models (Eloquent ORM)</td> <td>Đại diện cho các bảng dữ liệu, thực hiện thao tác ORM với CockroachDB</td> </tr> <tr> <td>Routes (web.php/api.php)</td> <td>Định tuyến các yêu cầu đến controller tương ứng</td> </tr> <tr> <td>Postman, Apache Bench</td> <td>Dùng để kiểm thử API và đo hiệu suất hệ thống</td> </tr> <tr> <td>Docker (nếu áp dụng)</td> <td>Tự động hóa triển khai hệ thống thành nhiều node</td> </tr> </tbody> </table>
-
-*2.3. Sơ đồ Use Case và Phân quyền người dùng*
-
-Hệ thống chia làm hai loại người dùng chính:
-
-*Admin*
-
-*User*
-
-<table>
-  <thead>
-    <tr>
-      <th>Use Case</th>
-      <th>Actor</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr><td>Đăng nhập</td><td>Admin, User</td></tr>
-    <tr><td>Quản lý tài khoản người dùng</td><td>Admin</td></tr>
-    <tr><td>Tạo/Sửa/Xóa mẫu email</td><td>Admin</td></tr>
-    <tr><td>Soạn và gửi email</td><td>Admin, User</td></tr>
-    <tr><td>Lên lịch gửi email</td><td>Admin, User</td></tr>
-    <tr><td>Quản lý danh sách người nhận</td><td>Admin, User</td></tr>
-    <tr><td>Xem lịch sử gửi email</td><td>Admin, User</td></tr>
-    <tr><td>Thống kê, báo cáo email đã gửi</td><td>Admin</td></tr>
-    <tr><td>Đăng xuất</td><td>Admin, User</td></tr>
-  </tbody>
-</table>
-
-
-Sơ đồ usecase
-
- 
-2.4. Sơ đồ cơ sở dữ liệu (ERD – Entity Relationship Diagram)
-Bảng	Mô tả
-users	Thông tin người dùng đăng nhập hệ thống
-contacts	Danh sách người nhận email của mỗi người dùng
-email_templates	Mẫu email có thể tái sử dụng
-emails	Lưu nội dung các email đã gửi
-email_logs	Ghi lại lịch sử gửi email, trạng thái gửi
-schedules	Lưu các email được lên lịch gửi
-
-Dưới đây là sơ đồ CSDL.
- 
-
+2.2. Vai trò các thành phần chính
+Thành phần	Vai trò chính
+Client (Web / Mobile)	Gửi yêu cầu HTTP đến Flask, ví dụ: gửi email, tạo báo cáo, đăng ký người dùng…
+Flask Web API	Nhận yêu cầu từ client, kiểm tra dữ liệu, rồi đẩy task sang hàng đợi Celery qua Redis. Flask phản hồi ngay cho client mà không cần đợi task xử lý xong.
+Redis (Message Broker)	Là trung gian truyền thông giữa Flask và Celery. Nó xếp hàng các task bất đồng bộ mà Flask gửi đến, để các worker của Celery lấy ra và xử lý.
+Celery Worker	Là thành phần xử lý thực tế các task. Worker đọc task từ Redis, xử lý (ví dụ gửi email, resize ảnh...), sau đó trả kết quả nếu cần. Có thể mở rộng theo cụm.
+Redis (Result Backend) hoặc Database	Nếu cần lưu lại kết quả task để client kiểm tra sau, Celery có thể lưu vào Redis hoặc hệ quản trị CSDL như PostgreSQL, MongoDB.
+(Tuỳ chọn) Flower / Prometheus	Công cụ giám sát để xem task đang chạy, task bị lỗi, thời gian xử lý, worker có đang hoạt động không...
 
 3. Áp dụng các khái niệm phân tán
-3.1. Khả năng chịu lỗi (Fault Tolerance)
-Khả năng chịu lỗi là một trong những tiêu chí bắt buộc trong hệ thống phân tán, nhằm đảm bảo hệ thống vẫn hoạt động bình thường ngay cả khi một hoặc nhiều nút trong cụm gặp sự cố.
-Trong hệ thống này, CockroachDB đóng vai trò là cơ sở dữ liệu phân tán và cung cấp khả năng chịu lỗi một cách tự động thông qua:
-•	Giao thức Raft Consensus: Mỗi đơn vị dữ liệu (range) được sao chép tối thiểu ba bản trên ba node khác nhau. Một node làm leader, hai node còn lại làm follower.
-•	Tự động bầu lại leader: Khi một node gặp sự cố (mất kết nối, tắt máy,...), CockroachDB tự động chọn lại một leader mới trong số các follower để duy trì hoạt động.
-•	Khả năng phục hồi sau lỗi: Khi node bị lỗi khôi phục, nó có thể đồng bộ lại dữ liệu và gia nhập lại cluster mà không làm gián đoạn hệ thống.
-Thử nghiệm thực tế:
-Tắt một node trong cụm CockroachDB và thực hiện các thao tác CRUD từ Laravel – hệ thống vẫn tiếp tục hoạt động, không xảy ra lỗi, chứng minh tính năng fault tolerance hoạt động đúng như thiết kế.
-3.2. Giao tiếp phân tán (Distributed Communication)
-Hệ thống phân tán bắt buộc các thành phần trong kiến trúc phải giao tiếp qua mạng thay vì cùng chạy trên một máy đơn.
-Các tầng giao tiếp trong hệ thống:
-Thành phần	Giao thức	Mô tả
-Client → Backend	HTTP	Gửi request từ giao diện web tới Laravel (REST API, form submission).
-Backend → Database	PostgreSQL over TCP	Laravel sử dụng PDO để truy vấn dữ liệu từ CockroachDB cluster.
-Các Node trong CockroachDB	gRPC, Internal Raft	Các node trong cluster đồng bộ trạng thái, bầu leader, replicate dữ liệu.
-Kiểm chứng: Laravel backend chạy trên một máy riêng, cluster CockroachDB triển khai trên 3 máy khác → xác nhận các thành phần giao tiếp qua mạng nội bộ và public IP.
-3.3. Phân mảnh và sao chép dữ liệu (Sharding & Replication)
-•	Phân mảnh (Sharding):
-CockroachDB thực hiện phân mảnh dữ liệu tự động bằng cách chia nhỏ các bảng thành nhiều "range" (thường mỗi range ~64MB). Mỗi range được phân bố trên nhiều node khác nhau, đảm bảo phân tải đều và tránh quá tải trên một node duy nhất.
-•	Sao chép dữ liệu (Replication):
-Mỗi range sẽ có ít nhất 3 bản sao trên 3 node khác nhau. Trong đó có 1 bản làm leader, 2 bản còn lại là follower. Khi một bản sao mất, CockroachDB sẽ tự động tạo lại replica ở node khác.
-Lợi ích:
-•	Tránh mất dữ liệu khi node gặp sự cố.
-•	Tăng khả năng phục vụ đọc ghi (read/write scalability).
-•	Đảm bảo tính nhất quán mạnh (strong consistency).
-Kiểm tra thực tế: Dữ liệu thêm vào từ Laravel vẫn truy vấn được sau khi một node bị ngắt. Dùng lệnh CLI cockroach node status cho thấy vị trí và trạng thái các replica.
-3.4. Ghi log và giám sát (Logging & Monitoring)
-Hệ thống cung cấp công cụ giám sát và ghi log đơn giản để hỗ trợ kiểm tra, xử lý lỗi và đánh giá hoạt động.
-•	Laravel logs: Ghi lại toàn bộ hoạt động của backend vào file storage/logs/laravel.log, bao gồm cả lỗi kết nối, hành vi người dùng, lỗi hệ thống,...
+3.1. Fault Tolerance trong Celery 
 
-3.5. Kiểm thử hiệu năng (Stress Test)
-Để kiểm tra độ ổn định và khả năng chịu tải của hệ thống, nhóm đã thực hiện các thử nghiệm mô phỏng nhiều người dùng truy cập đồng thời.
-Công cụ sử dụng:
-•	Apache Bench (ab): Test số lượng lớn request trong thời gian ngắn.
-•	Postman Runner: Mô phỏng luồng người dùng với REST API thực tế.
-Kịch bản kiểm thử:
+1. Cơ chế Fault Tolerance của Celery
+Celery được thiết kế để không phụ thuộc vào một điểm duy nhất và có khả năng khôi phục các tác vụ lỗi một cách linh hoạt. Các cơ chế chính bao gồm:
 
-Kịch bản	Mô tả	Kết quả
-1	500 request POST tạo lịch hẹn trong 1 phút	Thành công 100%, thời gian trung bình ~210ms
-2	1000 request GET danh sách bác sĩ	Không lỗi, phản hồi ổn định ~90ms
-3	10 user đặt lịch cùng lúc	Giao dịch được commit, không trùng lịch, không lỗi ghi
-Kết luận: Hệ thống có thể xử lý tốt dưới tải trung bình đến cao. CockroachDB phân phối request và tự cân bằng hiệu quả giữa các node.
+    a) Task Acknowledgement (ACK)
+•	Mỗi tác vụ chỉ được xác nhận hoàn thành khi worker xử lý thành công.
+•	Nếu worker chết trước khi gửi ACK, task sẽ không bị mất, mà quay lại hàng đợi (re-queued).
+
+
+    b) Tự động retry khi lỗi
+•	Các task có thể cấu hình để retry khi thất bại
+•	Hữu ích trong trường hợp lỗi tạm thời như mất kết nối tới server, timeout, API bị lỗi.
+
+    c) Nhiều worker song song
+•	Nhiều worker có thể cùng xử lý task từ hàng đợi → nếu một worker gặp sự cố, các worker còn lại tiếp tục hoạt động bình thường.
+•	Worker có thể triển khai trên nhiều máy chủ khác nhau (distributed worker model).
+
+    d) Message broker ổn định
+•	Redis hoặc RabbitMQ đều có khả năng persist task và hoạt động ổn định trong môi trường phân tán.
+•	Broker có thể thiết lập cluster hoặc failover để tránh single point of failure.
+
+    e) Worker auto-restart
+•	Worker có thể được giám sát và khởi động lại tự động bằng các công cụ như systemd, supervisor, docker restart, hoặc orchestrator như Kubernetes.
+
+2. Minh họa tình huống chịu lỗi
+•	Flask gửi task "send-email" đến Celery qua Redis.
+•	Worker A nhận task, nhưng bất ngờ bị kill trước khi gửi email.
+•	Task chưa được Accept → Redis sẽ giữ lại task.
+•	Worker B (hoặc worker A sau khi restart) sẽ tiếp nhận lại task và tiếp tục xử lý.
+
+3. Đánh giá
+Tiêu chí	Đánh giá
+Mất task khi worker chết	Không (nếu cấu hình đúng)
+Khả năng retry khi task lỗi	Có, cấu hình linh hoạt
+Đảm bảo hoạt động khi một node hỏng	Có
+Yêu cầu thêm phần giám sát (monitoring)	Cần để phát hiện lỗi và tự động restart
+
+ 3.2. Distributed Communication giữa các nút
+Celery sử dụng mô hình message queue-based communication thông qua một message broker như RabbitMQ, Redis, Amazon SQS… để thực hiện phân tán công việc:
+•	Master process (producer) gửi task đến message broker.
+•	Workers (consumer) nhận và xử lý task.
+•	Có thể triển khai nhiều worker trên nhiều node vật lý – điều này tạo thành một hệ thống phân tán thật sự.
+Celery sử dụng giao thức AMQP hoặc Redis Pub/Sub cho giao tiếp giữa các thành phần – đây là phương thức Asynchronous, Loosely coupled, đảm bảo hiệu suất và mở rộng linh hoạt.
+
+3.3. Sharding và Replication trong hệ thống Celery
+Dù Celery không có sharding ở cấp độ dữ liệu như database, nhưng ta có thể:
+•	Chia cụm (cluster) worker theo queue:
+o	Mỗi worker có thể lắng nghe một queue riêng (ví dụ: email_queue, report_queue), xem như một hình thức sharding theo chức năng.
+•	Replication:
+o	Ta có thể chạy nhiều worker xử lý cùng một queue, để tạo độ dư thừa (redundancy): nếu một worker chết, worker khác tiếp tục xử lý.
+o	Dùng chiến lược task routing để kiểm soát dòng công việc theo vùng địa lý hoặc theo mức độ ưu tiên.
+Đây là cách Celery mô phỏng Sharding và Replication theo góc nhìn task-level.
+3.4. Logging và Giám sát
+Celery hỗ trợ logging tích hợp và có thể mở rộng với các công cụ giám sát:
+•	Flower: Web UI trực quan để theo dõi queue, worker, task, trạng thái (success, retry, failed), thời gian xử lý...
+•	Tích hợp Prometheus / Grafana để thu thập metric về số lượng task, độ trễ, hiệu suất, thông qua các exporter.
+•	Structured Logging: Dễ dàng tích hợp với các hệ thống log tập trung như ELK Stack (Elasticsearch, Logstash, Kibana) hoặc Sentry cho alert.
+ Đây là phần rất quan trọng khi vận hành hệ thống ở môi trường Production.
+3.5. Stress Test: Mô phỏng tải và đánh giá hệ thống
+Celery có thể được kiểm tra hiệu năng bằng cách:
+•	Viết script để tạo hàng nghìn task đồng thời (ví dụ gửi 10.000 email).
+•	Đo đạc:
+o	Thời gian hoàn thành task trung bình.
+o	Tổng số task xử lý được trong 1 phút.
+o	Tỉ lệ lỗi khi tăng số lượng worker / queue.
+•	Dùng time, locust, wrk, hoặc custom benchmark script để kiểm tra khả năng mở rộng.
+•	Quan sát qua Flower hoặc Prometheus để xác định “điểm nghẽn”.
+Kết quả giúp điều chỉnh số lượng worker, cấu hình broker, độ trễ retry, phân phối task tốt hơn.
+                                                                                                                                            Kết Luận:
+Celery là một công cụ mạnh mẽ để xây dựng hệ thống xử lý nền phân tán, có khả năng chịu lỗi, mở rộng linh hoạt và dễ giám sát. Khi áp dụng các khái niệm như Fault Tolerance, Communication, Sharding, Replication và Stress Testing, Celery cho thấy khả năng phù hợp với các hệ thống quy mô vừa đến lớn.
+Với kiến trúc đúng, Celery có thể đáp ứng tốt nhu cầu của các hệ thống gửi Email, xử lý dữ liệu nền, Automation Workflows và các Microservices phức tạp.
 4. Các tính năng tùy chọn
-Ngoài các tính năng bắt buộc như khả năng chịu lỗi, phân mảnh dữ liệu và giao tiếp phân tán, nhóm cũng lựa chọn triển khai một số tính năng tùy chọn trong hệ thống nhằm nâng cao độ ổn định và khả năng mở rộng. Cụ thể, các tính năng được áp dụng bao gồm:
-4.1. Khôi phục hệ thống sau lỗi (System Recovery)
-Mục tiêu: Đảm bảo khi một node trong hệ thống (cả backend hoặc database) gặp sự cố, sau khi khởi động lại có thể tự động tái gia nhập hệ thống và đồng bộ lại dữ liệu mà không cần can thiệp thủ công.
-Triển khai trong CockroachDB:
-•	Khi một node bị dừng hoặc tắt đột ngột, CockroachDB sử dụng metadata và consensus log để đảm bảo node đó khi khởi động lại sẽ:
-o	Kết nối lại với cluster thông qua gRPC.
-o	Đồng bộ lại các range và dữ liệu mới.
-o	Tự động phục hồi vai trò (leader/follower).
-Thử nghiệm thực tế:
-•	Tắt node 2 trong cluster.
-•	Sau 1 phút, khởi động lại node này.
-•	Dữ liệu tự động được đồng bộ hóa, node tiếp tục phục vụ query → chứng minh khả năng rejoin sau lỗi hoạt động ổn định.
-Laravel App:
-•	Laravel backend khi mất kết nối tới DB sẽ tự động thử kết nối lại (retry).
-•	Các request bị lỗi được ghi lại trong log và tự khôi phục trạng thái giao diện người dùng.
+4.1. Load Balancing (Cân bằng tải)
+Celery không có một load balancer nội tại, nhưng nó tự động phân phối công việc đều cho các Worker nhờ vào message Broker (Redis, RabbitMQ) hoạt động theo cơ chế FIFO hoặc round-robin.
+      Cách hoạt động:
+•	Các Worker kết nối vào cùng một hàng đợi (queue).
+•	Broker gửi tác vụ cho Worker rảnh sớm nhất hoặc theo thứ tự.
+•	Nếu có nhiều hàng đợi (Named queue), bạn có thể điều phối Worker nào xử lý hàng đợi nào – một hình thức Manual Load Partitioning.
+ Nâng cao:
+•	Có thể dùng Prefetch Limit để giới hạn số task một Worker được "giữ tạm" trong bộ nhớ.
+•	Kết hợp Celery với Kubernetes hoặc Docker Swarm để tự động Scale Worker theo tải.
+ Kết Luận: 
+Dù không có Load Balancer riêng, Celery tận dụng cơ chế phân phối task của Broker để đạt hiệu quả Load Balancing tự nhiên.
 
-4.2. Cân bằng tải (Load Balancing)
-Mục tiêu: Phân phối đều các truy vấn từ Laravel đến các node CockroachDB để tránh tập trung quá tải vào một node cụ thể.
-•	Triển khai:
-•	Laravel được cấu hình kết nối qua một connection string đa địa chỉ, ví dụ:
-ini
-CopyEdit
-DB_HOST=roach1,roach2,roach3
-•	Khi Laravel thực hiện truy vấn, CockroachDB proxy client sẽ tự động phân phối các truy vấn tới các node leader hiện hành cho từng range.
-•	Đồng thời, hệ thống thực hiện auto-rebalance để phân phối lại range đều giữa các node trong cluster.
-Lợi ích:
-•	Giảm tải cục bộ ở một node.
-•	Tăng khả năng phục vụ đồng thời.
-•	Cải thiện độ phản hồi (latency) khi có nhiều request song song.
-Minh chứng: Trong stress test, không có node nào bị tắc nghẽn truy vấn; kiểm tra giao diện Admin UI của CockroachDB cho thấy các node chia sẻ khối lượng dữ liệu và queries tương đối đồng đều.
-4.3. Bảo mật và xác thực cơ bản (Security Features)
-Mục tiêu: Đảm bảo thông tin hệ thống được bảo vệ, không bị truy cập trái phép từ bên ngoài.
-•	Biện pháp bảo mật đã triển khai:
-•	Laravel Auth: Sử dụng hệ thống xác thực của Laravel với cơ chế mã hóa mật khẩu (bcrypt) và phân quyền dựa trên role.
-•	Session-based authentication: Dữ liệu đăng nhập được lưu trong session có timeout để bảo vệ truy cập.
-•	Phân quyền trong middleware: Chỉ cho phép admin truy cập các chức năng quản trị, và admindoctor truy cập các chức năng chuyên môn.
-•	.env Protection: Cấu hình kết nối DB và thông tin nhạy cảm được tách ra file .env, không đưa lên public repo.
-•	CSRF Protection: Laravel bật mặc định tính năng chống giả mạo request (CSRF Token) ở mọi form.
-Tiềm năng nâng cấp:
-•	Sử dụng HTTPS toàn hệ thống.
-•	Thêm xác thực hai lớp (2FA).
-•	Mã hóa giao tiếp DB (SSL/TLS với CockroachDB).
-mideptriadsfdf
+ 4.2. System Recovery sau lỗi
+Celery có khả năng khôi phục hệ thống sau lỗi dựa trên 3 yếu tố:
+   1. Tự động Retry task:
+•	Task có thể được cấu hình để Retry sau khi lỗi.
+•	Hữu ích khi có lỗi tạm thời như mất kết nối Email Server, API timeout...
+   2. Task không bị mất khi worker chết:
+•	Task chỉ bị xóa khỏi hàng đợi nếu Worker Acknowledge (xác nhận) đã xử lý xong.
+•	Nếu Worker chết đột ngột, task sẽ được trả lại hàng đợi.
+   3. Worker tự động restart:
+•	Có thể dùng Supervisor, Systemd hoặc Kubernetes để giám sát và tự động khởi động lại Worker khi bị Crash.
+Kết Luận: 
+Celery hỗ trợ System Recovery tự động ở cấp độ task và process – phù hợp với môi trường cần độ ổn định cao.
+
+ 4.3. Consistency của dữ liệu
+Celery không quản lý dữ liệu trực tiếp, nhưng tính nhất quán (consistency) phụ thuộc vào:
+   Trường hợp cần lưu kết quả (result backend):
+•	Sử dụng Redis, PostgreSQL, MongoDB... để lưu kết quả task.
+•	Nếu worker hoàn thành nhưng fail khi lưu kết quả → có thể bị inconsistent.
+   Giải pháp cải thiện:
+•	Dùng cơ chế atomic transaction trong task để đảm bảo toàn vẹn
+•	Sử dụng Idempotent Tasks (tác vụ có thể chạy lại nhiều lần mà không gây lỗi) để tránh ghi đè sai dữ liệu.
+•	Tích hợp với hệ thống lưu trữ đảm bảo ACID (PostgreSQL, CockroachDB...).
+Kết Luận: 
+Celery không đảm bảo Consistency tuyệt đối như một hệ thống CSDL, nhưng có thể đảm bảo tính nhất quán ứng dụng nếu thiết kế task đúng cách.
+
