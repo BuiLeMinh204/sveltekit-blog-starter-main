@@ -7,7 +7,7 @@ categories:
 coverImage: "/images/linus-nylund-Q5QspluNZmM-unsplash.jpg"
 coverWidth: 16
 coverHeight: 9
-excerpt: Ấn vào đây để xem thêm ...
+excerpt: Ấn vào để xem thêm ....
 ---
 
 ---
