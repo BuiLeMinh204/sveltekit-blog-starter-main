@@ -3,14 +3,11 @@ title: "Deliverable 4"
 date: "2025-06-03"
 updated: "2025-06-03"
 categories:
-  - "sveltekit"
-  - "web"
-  - "css"
-  - "markdown"
+  - "minhbui"
 coverImage: "/images/linus-nylund-Q5QspluNZmM-unsplash.jpg"
 coverWidth: 16
 coverHeight: 9
-excerpt: This post shows you how syntax highlighting works here.
+excerpt: Ấn vào đây để xem thêm ...
 ---
 
 ---
