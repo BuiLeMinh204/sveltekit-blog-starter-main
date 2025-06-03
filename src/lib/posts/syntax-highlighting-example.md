@@ -1,7 +1,7 @@
 ---
 title: "Deliverable 4"
-date: "2023-01-05"
-updated: "2023-01-05"
+date: "2025-06-03"
+updated: "2025-06-03"
 categories:
   - "sveltekit"
   - "web"
@@ -14,6 +14,73 @@ excerpt: This post shows you how syntax highlighting works here.
 ---
 
 ---
+## 1. GIỚI THIỆU ĐỀ TÀI
+
+*1.1. Mục tiêu*
+
+• Xây dựng hệ thống gửi email tự động phục vụ cho các nhu cầu như: thông báo, xác nhận tài khoản, báo cáo, marketing,...
+
+•	Quản lý danh sách người nhận, nội dung email và lịch gửi một cách dễ dàng và hiệu quả.
+
+•	Tích hợp tính năng gửi email hàng loạt (bulk email) và cá nhân hóa nội dung (ví dụ: chèn tên người nhận).
+
+•	Áp dụng kiến thức về lập trình Java, mạng, giao thức SMTP, cơ sở dữ liệu và bảo mật vào một ứng dụng thực tế.
+
+•	Cung cấp giao diện trực quan, dễ sử dụng để người dùng có thể thao tác nhanh chóng.
+
+•	Hỗ trợ các chức năng nâng cao như: tạo mẫu email (template), lên lịch gửi (schedule), thống kê email đã gửi/thành công/lỗi,...
+
+*1.2. Lý do chọn đề tài*
+
+•	Email là một công cụ giao tiếp không thể thiếu trong môi trường làm việc hiện đại, đặc biệt là trong doanh nghiệp, trường học, dịch vụ khách hàng,...
+
+•	Nhiều tổ chức cần tự động hóa việc gửi email để tiết kiệm thời gian, giảm sai sót, nâng cao hiệu quả công việc.
+
+•	Việc xây dựng ứng dụng gửi email giúp áp dụng kiến thức lý thuyết vào bài toán thực tế, nâng cao kỹ năng lập trình và hiểu biết về các giao thức truyền thông như SMTP, TLS,...
+
+•	Tính ứng dụng cao: phần mềm có thể được sử dụng trong nhiều lĩnh vực như: thương mại điện tử, giáo dục, quản lý nhân sự, tiếp thị, chăm sóc khách hàng,...
+
+•	Tạo nền tảng để phát triển các hệ thống nâng cao hơn như: CRM, hệ thống marketing automation, hệ thống quản lý khách hàng,...
+
+*1.3. Mô tả tổng quan hệ thống*
+
+Hệ thống gửi email tự động là một phần mềm cho phép người dùng quản lý và gửi email đến một hoặc nhiều người nhận một cách hiệu quả và nhanh chóng. Hệ thống được thiết kế để hỗ trợ các nhu cầu thực tế như: gửi thông báo, xác nhận đăng ký, chăm sóc khách hàng, email marketing, hoặc gửi báo cáo định kỳ.
+
+Ứng dụng có giao diện người dùng thân thiện, cho phép người dùng nhập nội dung email, chọn danh sách người nhận, đính kèm tệp và gửi email trực tiếp từ hệ thống thông qua giao thức SMTP. Ngoài ra, hệ thống còn hỗ trợ các tính năng nâng cao như lên lịch gửi, theo dõi trạng thái gửi (đã gửi thành công/thất bại), và quản lý mẫu email.
+
+*Hệ thống bao gồm 2 thành phần chính:*
+
+1.	Giao diện người dùng (User Interface)
+
+o	Cho phép người dùng nhập tiêu đề, nội dung, người nhận, tệp đính kèm.
+
+o	Có thể lựa chọn gửi ngay hoặc lên lịch gửi vào thời điểm định trước.
+
+o	Hiển thị lịch sử gửi email và trạng thái gửi.
+
+2.	Bộ xử lý nghiệp vụ (Business Logic Layer)
+
+o	Kiểm tra định dạng email, xử lý tệp đính kèm, kết nối tới máy chủ SMTP.
+
+o	Gửi email theo đúng lịch trình.
+
+o	Ghi log và trạng thái gửi email vào hệ thống.
+
+Hệ thống sử dụng ngôn ngữ lập trình Java, thư viện JavaMail API để kết nối và gửi email qua giao thức SMTP (ví dụ: Gmail SMTP server). Cơ sở dữ liệu như MySQL hoặc SQLite có thể được tích hợp để lưu trữ thông tin người dùng và lịch sử gửi email.
+
+*1.4. Các công nghệ và thư viện sử dụng*
+
+| Công nghệ                   | Vai trò                                                                 |
+|----------------------------|-------------------------------------------------------------------------|
+| **Celery**                 | Xử lý tác vụ bất đồng bộ, hỗ trợ phân tán, đảm bảo khả năng chịu lỗi    |
+| **Flask**                  | Giao tiếp với client, xử lý logic ban đầu, gửi task đến Celery          |
+| **Redis**                  | Làm message broker truyền tải task và/hoặc lưu trữ kết quả task          |
+| **Docker**                 | Triển khai các node trong môi trường container hóa                      |
+| **Postman / Apache Bench**| Công cụ test API và thực hiện stress test                                |
+| **VS Code**                | IDE chính để phát triển mã nguồn                                         |
+| **Git + GitHub**           | Quản lý mã nguồn và lưu trữ dự án                                       |
+
+
 ## 2. Kiến trúc hệ thống
 
 *2.1. Kiến trúc tổng thể*
