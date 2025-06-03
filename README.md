@@ -1,7 +1,11 @@
 # Chào mừng bạn đến với blog của mình
+
 mình là Bùi Lê Minh - sinh viên khoa CNTT đại học Phenikaa
+
 mình là Tăng Văn Bách - sinh viên khoa CNTT đại học Phenikaa
+
 ## Đề tài thư viện Celery
+
 ### Mục đích chính của thư viện Celery
 
 Celery được thiết kế để xử lý các tác vụ bất đồng bộ (asynchronous tasks) và tác vụ nền (background jobs) trong ứng dụng Python. Cụ thể, các mục tiêu chính gồm:
