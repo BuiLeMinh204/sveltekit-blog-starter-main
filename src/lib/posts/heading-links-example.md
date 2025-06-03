@@ -11,8 +11,6 @@ excerpt: Ấn vào để xem thêm ....
 ---
 
 ---
-# Giai đoạn 2
-
 ## 2. Kiến trúc hệ thống
 
 *2.1. Kiến trúc tổng thể*
