@@ -173,3 +173,4 @@ Tiềm năng nâng cấp:
 •	Sử dụng HTTPS toàn hệ thống.
 •	Thêm xác thực hai lớp (2FA).
 •	Mã hóa giao tiếp DB (SSL/TLS với CockroachDB).
+mideptriadsfdf
