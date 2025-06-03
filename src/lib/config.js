@@ -5,7 +5,7 @@
  * PLEASE BE SURE TO UPDATE THEM ALL! Thank you!
  **/ 
 
-export const siteTitle = 'Gửi Email Nền Blog'
+export const siteTitle = 'Gửi Email Blog'
 export const siteDescription = 'Báo Cáo Dự Án Gửi Email Nền'
 export const siteURL = 'example.com'
 export const siteLink = 'https://github.com/josh-collinsworth/sveltekit-blog-starter'
